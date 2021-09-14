@@ -1,36 +1,33 @@
-import { Note } from './note.model';
 import { Injectable } from '@angular/core';
+import { Note } from './note.model';
+import { WebRequestService } from './web-request.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
 
-  notes: Note[] = new Array<Note>();
-
-  constructor() { }
+  constructor(private webReqService: WebRequestService) { }
 
   getAll() {
-    return this.notes;
+    return this.webReqService.get('/notes');
   }
 
-  get(id: number) {
-    return this.notes[id];
+  get(id: string) {
+    return this.webReqService.get('/notes/' + id);
   }
-  getId(note: Note) {
-    return this.notes.indexOf(note);
-  }
+
   add(note: Note) {
-    let newLength = this.notes.push(note);
-    let index = newLength - 1;
-    return index;
+    // this method will add a note to the notes array
+    return this.webReqService.post('/notes', note);
   }
-  update(id: number, title: string, body: string) {
-    let note = this.notes[id];
-    note.title = title;
-    note.body = body;
+
+  update(note: Note) {
+    console.log(note);
+    return this.webReqService.patch('/notes/' + note._id, note);
   }
-  delete(id: number) {
-    this.notes.splice(id, 1);
+
+  delete(id: string) {
+    return this.webReqService.delete('/notes/' + id);
   }
 }

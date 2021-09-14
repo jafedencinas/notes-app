@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-note-card',
   templateUrl: './note-card.component.html',
   styleUrls: ['./note-card.component.scss']
 })
-export class NoteCardComponent implements AfterViewInit {
+export class NoteCardComponent implements OnInit {
 
   @Input() title: string;
   @Input() body: string;
@@ -18,7 +18,7 @@ export class NoteCardComponent implements AfterViewInit {
 
   constructor(private renderer: Renderer2) { }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     // work out if there is a text overflow and if not, then hide the truncator
 
     let style = window.getComputedStyle(this.bodyText.nativeElement, null);
@@ -33,9 +33,9 @@ export class NoteCardComponent implements AfterViewInit {
     }
   }
 
+
   onXButtonClick() {
     this.deleteEvent.emit();
-
   }
 
 }
